@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard • Online Food Ordering</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="nav">
+    <div class="nav-inner">
+      <div class="brand"><div class="logo"></div> Admin Dashboard</div>
+    </div>
+  </div>
+  <header>
+    <h1>Admin Dashboard</h1>
+    <p class="subtitle">View data and manage Restaurants</p>
+  </header>
+  <main class="container">
+    <section class="card">
+      <h2>Restaurants (Add / Edit / Delete)</h2>
+      <div class="form-row">
+        <label for="restName">Name</label>
+        <input id="restName" type="text" placeholder="Restaurant name" />
+      </div>
+      <div class="form-row">
+        <label for="restAddr">Address</label>
+        <input id="restAddr" type="text" placeholder="Address" />
+      </div>
+      <button id="addRestaurantBtn">Add Restaurant</button>
+      <p id="adminMsg" class="message"></p>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Address</th>
+            <th>Password</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="restaurantsBody"></tbody>
+      </table>
+    </section>
+
+    <section class="card">
+      <h2>Users</h2>
+      <table>
+        <thead><tr><th>ID</th><th>Name</th><th>Email</th><th>Phone</th><th>Address</th><th>Password</th></tr></thead>
+        <tbody id="usersBody"></tbody>
+      </table>
+    </section>
+
+    <section class="card">
+      <h2>Delivery Partners</h2>
+      <table>
+        <thead><tr><th>ID</th><th>Name</th><th>Phone</th><th>Password</th></tr></thead>
+        <tbody id="partnersBody"></tbody>
+      </table>
+    </section>
+
+    <section class="card">
+      <h2>Orders</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th><th>User</th><th>Restaurant</th><th>Item</th>
+            <th>Qty</th><th>Total</th><th>Status</th><th>Partner</th><th>Date</th>
+          </tr>
+        </thead>
+        <tbody id="ordersBody"></tbody>
+      </table>
+    </section>
+  </main>
+  <footer>
+    <p><a href="index.html">Customer App</a> • <a href="partner.html">Partner App</a></p>
+  </footer>
+  <script src="admin.js"></script>
+</body>
+</html>
+
+

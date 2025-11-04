@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Customer Login • Online Food Ordering</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="nav">
+    <div class="nav-inner">
+      <div class="brand"><div class="logo"></div> Customer Login</div>
+    </div>
+  </div>
+  <header>
+    <h1>Welcome Back</h1>
+    <p class="subtitle">Login or create a new account to order</p>
+  </header>
+  <main class="container grid-2">
+    <section class="card">
+      <h2>Login</h2>
+      <div class="form-row">
+        <label for="loginEmail">Email</label>
+        <input id="loginEmail" type="text" placeholder="you@example.com" />
+      </div>
+      <div class="form-row">
+        <label for="loginPassword">Password</label>
+        <input id="loginPassword" type="password" placeholder="••••••" />
+      </div>
+      <button id="loginBtn">Login</button>
+      <p id="loginMsg" class="message"></p>
+    </section>
+
+    <section class="card">
+      <h2>Sign Up</h2>
+      <div class="form-row"><label for="suName">Name</label><input id="suName" type="text" /></div>
+      <div class="form-row"><label for="suEmail">Email</label><input id="suEmail" type="text" /></div>
+      <div class="form-row"><label for="suPhone">Phone</label><input id="suPhone" type="text" /></div>
+      <div class="form-row"><label for="suAddr">Address</label><input id="suAddr" type="text" /></div>
+      <div class="form-row"><label for="suPass">Password</label><input id="suPass" type="password" /></div>
+      <button id="signupBtn">Create Account</button>
+      <p id="signupMsg" class="message"></p>
+    </section>
+  </main>
+  <script>
+    const API = 'http://localhost:3000';
+    const loginBtn = document.getElementById('loginBtn');
+    const loginEmail = document.getElementById('loginEmail');
+    const loginPassword = document.getElementById('loginPassword');
+    const loginMsg = document.getElementById('loginMsg');
+    const suName = document.getElementById('suName');
+    const suEmail = document.getElementById('suEmail');
+    const suPhone = document.getElementById('suPhone');
+    const suAddr = document.getElementById('suAddr');
+    const suPass = document.getElementById('suPass');
+    const signupBtn = document.getElementById('signupBtn');
+
+    if (localStorage.getItem('custToken')) {
+      window.location.href = 'index.html';
+    }
+
+    loginBtn.addEventListener('click', async () => {
+      try{
+        const res = await fetch(`${API}/auth/customer-login`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ email: loginEmail.value.trim(), password: loginPassword.value }) });
+        const data = await res.json(); if(!res.ok) throw new Error(data.error||'Login failed');
+        localStorage.setItem('custToken', data.token);
+        loginMsg.textContent = 'Login successful'; loginMsg.className='message success';
+        window.location.href = 'index.html';
+      }catch(e){ loginMsg.textContent = e.message; loginMsg.className='message error'; }
+    });
+
+    signupBtn.addEventListener('click', async () => {
+      try{
+        const payload = { name: suName.value.trim(), email: suEmail.value.trim(), phone: suPhone.value.trim(), address: suAddr.value.trim(), password: suPass.value };
+        const res = await fetch(`${API}/auth/customer-signup`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) });
+        const data = await res.json(); if(!res.ok) throw new Error(data.error||'Signup failed');
+        localStorage.setItem('custToken', data.token);
+        document.getElementById('signupMsg').textContent = 'Account created';
+        window.location.href = 'index.html';
+      }catch(e){ document.getElementById('signupMsg').textContent = e.message; document.getElementById('signupMsg').className='message error'; }
+    });
+  </script>
+</body>
+</html>
+
+
+

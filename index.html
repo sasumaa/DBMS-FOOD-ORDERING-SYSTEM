@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Online Food Ordering System</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="nav">
+    <div class="nav-inner">
+      <div class="brand"><div class="logo"></div> Online Food Ordering <span id="custName" style="margin-left:10px;color:#9aa4b2;font-weight:600;"></span></div>
+      <div><button id="custLogout" class="btn-secondary">Sign Out</button></div>
+    </div>
+  </div>
+
+  <header>
+    <h1>Online Food Ordering System</h1>
+    <p class="subtitle">DBMS Prototype • MySQL • Stored Procedure</p>
+  </header>
+
+  <main class="container grid-2" id="appRoot" style="display:none;">
+    <section class="card">
+      <h2>Create Order</h2>
+      <div class="form-row">
+        <label for="nameInput">Name</label>
+        <input id="nameInput" type="text" placeholder="Your full name" />
+      </div>
+      <div class="form-row">
+        <label for="emailInput">Email</label>
+        <input id="emailInput" type="text" placeholder="you@example.com" />
+      </div>
+      <div class="form-row">
+        <label for="phoneInput">Phone</label>
+        <input id="phoneInput" type="text" placeholder="9990001111" />
+      </div>
+      <div class="form-row">
+        <label for="addrInput">Address</label>
+        <input id="addrInput" type="text" placeholder="House no, Street, City" />
+      </div>
+      <div class="form-row">
+        <label for="restaurantSelect">Restaurant</label>
+        <select id="restaurantSelect"></select>
+      </div>
+      <div class="form-row">
+        <label for="itemSelect">Food Item</label>
+        <select id="itemSelect"></select>
+      </div>
+      <div class="form-row">
+        <label for="quantityInput">Quantity</label>
+        <input id="quantityInput" type="number" min="1" value="1" />
+      </div>
+      <button id="placeOrderBtn">Place Order</button>
+      <p id="message" class="message"></p>
+    </section>
+
+    <section class="card">
+      <h2>My Orders</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Order ID</th>
+            <th>Restaurant</th>
+            <th>Item</th>
+            <th>Qty</th>
+            <th>Total</th>
+            <th>Status</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody id="ordersBody"></tbody>
+      </table>
+    </section>
+  </main>
+
+  <footer>
+    <p>Runs on <code>localhost</code> • Backend: <code>node server.js</code></p>
+  </footer>
+
+  <script>
+    // redirect to login if no customer token
+    (function(){
+      const token = localStorage.getItem('custToken');
+      if(!token){ window.location.href = 'customer-login.html'; return; }
+      document.getElementById('appRoot').style.display = 'grid';
+    })();
+  </script>
+  <script src="app.js"></script>
+  </body>
+  </html>
+
+

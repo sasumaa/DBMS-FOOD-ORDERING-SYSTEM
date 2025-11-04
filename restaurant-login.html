@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Restaurant Login • Online Food Ordering</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="nav"><div class="nav-inner"><div class="brand"><div class="logo"></div> Restaurant Login</div></div></div>
+  <header><h1>Restaurant Login</h1><p class="subtitle">View your incoming orders</p></header>
+  <main class="container">
+    <section class="card">
+      <div class="form-row"><label for="rid">Restaurant ID</label><input id="rid" type="number" placeholder="e.g. 1" /></div>
+      <div class="form-row"><label for="rpass">Password</label><input id="rpass" type="password" placeholder="••••••" /></div>
+      <button id="login">Login</button>
+      <p id="msg" class="message"></p>
+    </section>
+    <section class="card">
+      <h2>Sign Up</h2>
+      <div class="form-row"><label for="rname">Name</label><input id="rname" type="text" /></div>
+      <div class="form-row"><label for="raddr">Address</label><input id="raddr" type="text" /></div>
+      <div class="form-row"><label for="rpass2">Password</label><input id="rpass2" type="password" /></div>
+      <button id="rsignup">Create Restaurant Account</button>
+      <p id="rmsg2" class="message"></p>
+    </section>
+  </main>
+  <script>
+    const API = 'http://localhost:3000';
+    if (localStorage.getItem('rToken')) { window.location.href='restaurant.html'; }
+    document.getElementById('login').addEventListener('click', async () => {
+      try{
+        const res = await fetch(`${API}/auth/restaurant-login`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ restaurant_id: Number(document.getElementById('rid').value), password: document.getElementById('rpass').value }) });
+        const data = await res.json(); if(!res.ok) throw new Error(data.error||'Login failed');
+        localStorage.setItem('rToken', data.token);
+        window.location.href='restaurant.html';
+      }catch(e){ document.getElementById('msg').textContent=e.message; document.getElementById('msg').className='message error'; }
+    });
+    document.getElementById('rsignup').addEventListener('click', async () => {
+      try{
+        const res = await fetch(`${API}/auth/restaurant-signup`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ name: document.getElementById('rname').value.trim(), address: document.getElementById('raddr').value.trim(), password: document.getElementById('rpass2').value }) });
+        const data = await res.json(); if(!res.ok) throw new Error(data.error||'Signup failed');
+        localStorage.setItem('rToken', data.token);
+        window.location.href='restaurant.html';
+      }catch(e){ const el=document.getElementById('rmsg2'); el.textContent=e.message; el.className='message error'; }
+    });
+  </script>
+</body>
+</html>
+
+

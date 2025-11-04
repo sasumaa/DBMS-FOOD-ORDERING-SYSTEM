@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Delivery Partner • Online Food Ordering</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="nav">
+    <div class="nav-inner">
+      <div class="brand"><div class="logo"></div> Delivery Partner <span id="partnerName" style="margin-left:10px;color:#9aa4b2;font-weight:600;"></span></div>
+      <div><button id="partnerLogout" class="btn-secondary">Sign Out</button></div>
+    </div>
+  </div>
+  <header>
+    <h1>Delivery Partner</h1>
+    <p class="subtitle">View and update your assigned orders</p>
+  </header>
+  <main class="container" id="partnerApp" style="display:none;">
+    <section class="card">
+      <p id="msg" class="message"></p>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th><th>User</th><th>Restaurant</th><th>Item</th>
+            <th>Qty</th><th>Total</th><th>Status</th><th>Date</th><th>Update</th>
+          </tr>
+        </thead>
+        <tbody id="ordersBody"></tbody>
+      </table>
+    </section>
+  </main>
+  <footer>
+    <p><a href="index.html">Customer App</a> • <a href="admin.html">Admin</a></p>
+  </footer>
+  <script>
+    (function(){ const t = localStorage.getItem('pToken'); if(!t){ window.location.href='partner-login.html'; return;} document.getElementById('partnerApp').style.display='block'; })();
+  </script>
+  <script src="partner.js"></script>
+</body>
+</html>
+
+

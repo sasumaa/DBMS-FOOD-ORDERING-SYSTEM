@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Partner Login • Online Food Ordering</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="nav"><div class="nav-inner"><div class="brand"><div class="logo"></div> Partner Login</div></div></div>
+  <header><h1>Delivery Partner Login</h1><p class="subtitle">Access your assigned deliveries</p></header>
+  <main class="container">
+    <section class="card">
+      <div class="form-row"><label for="pid">Partner ID</label><input id="pid" type="number" placeholder="e.g. 1" /></div>
+      <div class="form-row"><label for="ppass">Password</label><input id="ppass" type="password" placeholder="••••••" /></div>
+      <button id="login">Login</button>
+      <p id="msg" class="message"></p>
+    </section>
+    <section class="card">
+      <h2>Sign Up</h2>
+      <div class="form-row"><label for="pname">Name</label><input id="pname" type="text" /></div>
+      <div class="form-row"><label for="pphone">Phone</label><input id="pphone" type="text" /></div>
+      <div class="form-row"><label for="ppass2">Password</label><input id="ppass2" type="password" /></div>
+      <button id="psignup">Create Partner Account</button>
+      <p id="pmsg2" class="message"></p>
+    </section>
+  </main>
+  <script>
+    const API = 'http://localhost:3000';
+    if (localStorage.getItem('pToken')) { window.location.href='partner.html'; }
+    document.getElementById('login').addEventListener('click', async () => {
+      try{
+        const res = await fetch(`${API}/auth/partner-login`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ partner_id: Number(document.getElementById('pid').value), password: document.getElementById('ppass').value }) });
+        const data = await res.json(); if(!res.ok) throw new Error(data.error||'Login failed');
+        localStorage.setItem('pToken', data.token);
+        window.location.href='partner.html';
+      }catch(e){ document.getElementById('msg').textContent=e.message; document.getElementById('msg').className='message error'; }
+    });
+    document.getElementById('psignup').addEventListener('click', async () => {
+      try{
+        const res = await fetch(`${API}/auth/partner-signup`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ name: document.getElementById('pname').value.trim(), phone: document.getElementById('pphone').value.trim(), password: document.getElementById('ppass2').value }) });
+        const data = await res.json(); if(!res.ok) throw new Error(data.error||'Signup failed');
+        localStorage.setItem('pToken', data.token);
+        window.location.href='partner.html';
+      }catch(e){ const el=document.getElementById('pmsg2'); el.textContent=e.message; el.className='message error'; }
+    });
+  </script>
+</body>
+</html>
+
+
